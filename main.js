@@ -13,9 +13,7 @@ const Gree = require('gree-hvac-client');
 
 class GreeAircon extends utils.Adapter {
 
-	/** @type {GreeAircon.Client} */
-	Greeclient=null;
-	
+
 	/**
 	 * @param {Partial<ioBroker.AdapterOptions>} [options={}]
 	 */
@@ -29,6 +27,7 @@ class GreeAircon extends utils.Adapter {
 		this.on('stateChange', this.onStateChange.bind(this));
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
+
 		this.Greeclient = null;
 	}
 

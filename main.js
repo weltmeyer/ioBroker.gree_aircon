@@ -89,6 +89,7 @@ class GreeAircon extends utils.Adapter {
 		this.Greeclient = new Gree.Client({host: '10.0.20.104'});
 
 		this.Greeclient.on('connect',(client)=>{
+			
 			this.log.info('Client connected:'+client.getDeviceId());
 		});
 	}

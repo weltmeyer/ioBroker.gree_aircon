@@ -7,12 +7,15 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
-
+const Gree = require('gree-hvac-client');
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
 class GreeAircon extends utils.Adapter {
 
+	/** @type {GreeAircon.Client} */
+	Greeclient=null;
+	
 	/**
 	 * @param {Partial<ioBroker.AdapterOptions>} [options={}]
 	 */
@@ -26,6 +29,7 @@ class GreeAircon extends utils.Adapter {
 		this.on('stateChange', this.onStateChange.bind(this));
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
+		this.Greeclient = null;
 	}
 
 	/**
@@ -82,6 +86,12 @@ class GreeAircon extends utils.Adapter {
 
 		result = await this.checkGroupAsync('admin', 'admin');
 		this.log.info('check group user admin group admin: ' + result);
+
+		this.Greeclient = new Gree.Client({host: '10.0.20.104'});
+
+		this.Greeclient.on('connect',(client)=>{
+			this.log.info('Client connected:'+client.getDeviceId());
+		});
 	}
 
 	/**

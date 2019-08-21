@@ -75,6 +75,18 @@ class GreeAircon extends utils.Adapter {
 			native: {},
 		});
 
+		await this.setObjectAsync('temperature', {
+			type: 'state',
+			common: {
+				name: 'temperature',
+				type: 'number',
+				role: 'value.temperature',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+
 		// in this template all states changes inside the adapters namespace are subscribed
 		this.subscribeStates('*');
 
@@ -124,6 +136,7 @@ class GreeAircon extends utils.Adapter {
 		this.log.info('ClientPollUpdate: nowProperties:' + propJson);
 
 		this.setStateAsync('lights', properties.lights == 'on' ? true : false, true);
+		this.setStateAsync('temperature', properties.temperature, true);
 	}
 
 
@@ -166,10 +179,24 @@ class GreeAircon extends utils.Adapter {
 			// The state was changed
 			if (!state.ack) {
 				//ack is true when state was updated by device status... in this case, we dont need to send it again :)
-				if (id.endsWith('lights')) {
-					const newVal = state.val ? Gree.VALUE.lights.on : Gree.VALUE.lights.off;
-					this.Greeclient.setProperty(Gree.PROPERTY.lights, newVal);
+				const arrayOfStrings = id.split('.');
+				const propName = arrayOfStrings[arrayOfStrings.length - 1];
+
+				switch (propName) {
+					case 'lights': {
+						const newVal = state.val ? Gree.VALUE.lights.on : Gree.VALUE.lights.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.lights, newVal);
+						this.setStateAsync('lights', state.val, true);//ack lights on...
+						break;
+					}
+					case 'temperature': {
+						this.Greeclient.setProperty(Gree.PROPERTY.temperature, state.val);
+						this.setStateAsync('temperature', state.val, true);//ack 
+						break;
+					}
+
 				}
+
 			}
 			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}) (state=${JSON.stringify(state)})`);
 		} else {

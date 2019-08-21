@@ -102,7 +102,10 @@ class GreeAircon extends utils.Adapter {
 	 * 
 	 */
 	onGreeUpdate(updatedProperties, properties){
-		this.log.info('ClientPollUpdate: updatesProperties:'+updatedProperties);
+		const updateJson = JSON.stringify(updatedProperties);
+		const propJson = JSON.stringify(properties);
+		this.log.info('ClientPollUpdate: updatesProperties:'+updateJson);
+		this.log.info('ClientPollUpdate: nowProperties:'+propJson);
 	}
 
 

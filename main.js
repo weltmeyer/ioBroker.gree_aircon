@@ -106,6 +106,9 @@ class GreeAircon extends utils.Adapter {
 			this.log.info('Client connected:' + client.getDeviceId());
 			this.setState('info.connection', true, true);
 		});
+		this.Greeclient.on('no_response', () => {
+			this.log.warn('Client no response');
+		});
 		this.Greeclient.on('update', this.onGreeUpdate.bind(this));
 	}
 
@@ -120,7 +123,7 @@ class GreeAircon extends utils.Adapter {
 		this.log.info('ClientPollUpdate: updatesProperties:' + updateJson);
 		this.log.info('ClientPollUpdate: nowProperties:' + propJson);
 
-		this.setStateAsync('lights', properties.lights == 'on' ? true : false);
+		this.setStateAsync('lights', properties.lights == 'on' ? true : false, true);
 	}
 
 
@@ -161,11 +164,14 @@ class GreeAircon extends utils.Adapter {
 	onStateChange(id, state) {
 		if (state) {
 			// The state was changed
-			if (id.endsWith('lights')){
-				const newVal=state.val?Gree.VALUE.lights.on:Gree.VALUE.lights.off;
-				this.Greeclient.setProperty(Gree.PROPERTY.lights, newVal);
+			if (!state.ack) {
+				//ack is true when state was updated by device status... in this case, we dont need to send it again :)
+				if (id.endsWith('lights')) {
+					const newVal = state.val ? Gree.VALUE.lights.on : Gree.VALUE.lights.off;
+					this.Greeclient.setProperty(Gree.PROPERTY.lights, newVal);
+				}
 			}
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}) (state=${JSON.stringify(state)})`);
 		} else {
 			// The state was deleted
 			this.log.info(`state ${id} deleted`);

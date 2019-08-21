@@ -3,7 +3,7 @@
 /*
  * Created with @iobroker/create-adapter v1.16.0
  */
-
+//all gree properties {'power':'off','mode':'auto','temperatureUnit':'celsius','temperature':20,'fanSpeed':'auto','air':'off','blow':'off','health':'on','sleep':'off','lights':'on','swingHor':'full','swingVert':'full','quiet':'off','turbo':'off','powerSave':'off'}
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
@@ -67,6 +67,18 @@ class GreeAircon extends utils.Adapter {
 			type: 'state',
 			common: {
 				name: 'lights',
+				type: 'boolean',
+				role: 'switch',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+
+		await this.setObjectAsync('power', {
+			type: 'state',
+			common: {
+				name: 'power',
 				type: 'boolean',
 				role: 'switch',
 				read: true,
@@ -186,7 +198,13 @@ class GreeAircon extends utils.Adapter {
 					case 'lights': {
 						const newVal = state.val ? Gree.VALUE.lights.on : Gree.VALUE.lights.off;
 						this.Greeclient.setProperty(Gree.PROPERTY.lights, newVal);
-						this.setStateAsync('lights', state.val, true);//ack lights on...
+						this.setStateAsync('lights', state.val, true);//ack...
+						break;
+					}
+					case 'power': {
+						const newVal = state.val ? Gree.VALUE.power.on : Gree.VALUE.power.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.power, newVal);
+						this.setStateAsync('power', state.val, true);//ack...
 						break;
 					}
 					case 'temperature': {

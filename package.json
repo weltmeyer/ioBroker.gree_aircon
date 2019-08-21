@@ -9,7 +9,10 @@
   "homepage": "https://github.com/weltmeyer/ioBroker.gree_aircon",
   "license": "MIT",
   "keywords": [
-    "gree aircon"
+    "gree",
+    "argo",
+    "aircon",
+    "klima"
   ],
   "repository": {
     "type": "git",

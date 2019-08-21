@@ -62,6 +62,19 @@ class GreeAircon extends utils.Adapter {
 			native: {},
 		});
 
+
+		await this.setObjectAsync('lights', {
+			type: 'state',
+			common: {
+				name: 'lights',
+				type: 'boolean',
+				role: 'switch',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+
 		// in this template all states changes inside the adapters namespace are subscribed
 		this.subscribeStates('*');
 
@@ -86,14 +99,14 @@ class GreeAircon extends utils.Adapter {
 		result = await this.checkGroupAsync('admin', 'admin');
 		this.log.info('check group user admin group admin: ' + result);
 
-		this.Greeclient = new Gree.Client({host: '10.0.20.104'});
+		this.Greeclient = new Gree.Client({ host: '10.0.20.104' });
 
-		this.Greeclient.on('connect',(client)=>{
+		this.Greeclient.on('connect', (client) => {
 
-			this.log.info('Client connected:'+client.getDeviceId());
+			this.log.info('Client connected:' + client.getDeviceId());
 			this.setState('info.connection', true, true);
 		});
-		this.Greeclient.on('update',this.onGreeUpdate.bind(this));
+		this.Greeclient.on('update', this.onGreeUpdate.bind(this));
 	}
 
 
@@ -101,11 +114,13 @@ class GreeAircon extends utils.Adapter {
 	 * Is called when gree client polling updated
 	 * 
 	 */
-	onGreeUpdate(updatedProperties, properties){
+	onGreeUpdate(updatedProperties, properties) {
 		const updateJson = JSON.stringify(updatedProperties);
 		const propJson = JSON.stringify(properties);
-		this.log.info('ClientPollUpdate: updatesProperties:'+updateJson);
-		this.log.info('ClientPollUpdate: nowProperties:'+propJson);
+		this.log.info('ClientPollUpdate: updatesProperties:' + updateJson);
+		this.log.info('ClientPollUpdate: nowProperties:' + propJson);
+
+		this.setStateAsync('lights', properties.lights == 'on' ? true : false);
 	}
 
 
@@ -146,6 +161,10 @@ class GreeAircon extends utils.Adapter {
 	onStateChange(id, state) {
 		if (state) {
 			// The state was changed
+			if (id.endsWith('lights')){
+				const newVal=state.val?Gree.VALUE.lights.on:Gree.VALUE.lights.off;
+				this.Greeclient.setProperty(Gree.PROPERTY.lights, newVal);
+			}
 			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 		} else {
 			// The state was deleted

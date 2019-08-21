@@ -89,10 +89,22 @@ class GreeAircon extends utils.Adapter {
 		this.Greeclient = new Gree.Client({host: '10.0.20.104'});
 
 		this.Greeclient.on('connect',(client)=>{
-			
+
 			this.log.info('Client connected:'+client.getDeviceId());
+			this.setState('info.connection', true, true);
 		});
+		this.Greeclient.on('update',this.onGreeUpdate);
 	}
+
+
+	/**
+	 * Is called when gree client polling updated
+	 * 
+	 */
+	onGreeUpdate(updatedProperties, properties){
+		this.log.info('ClientPollUpdate: updatesProperties:'+updatedProperties);
+	}
+
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -100,6 +112,7 @@ class GreeAircon extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
+			this.Greeclient.disconnect();
 			this.log.info('cleaned everything up...');
 			callback();
 		} catch (e) {

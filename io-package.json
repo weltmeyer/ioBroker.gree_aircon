@@ -1,0 +1,96 @@
+{
+	"common": {
+		"name": "gree_aircon",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Gree Airconditioner",
+		"titleLang": {
+			"en": "Gree Airconditioner",
+			"de": "Gree Klimaanlage",
+			"ru": "Gree кондиционер",
+			"pt": "Ar Condicionado Gree",
+			"nl": "Gree Airconditioner",
+			"fr": "Climatiseur Gree",
+			"it": "Gree Airconditioner",
+			"es": "Gree aire acondicionado",
+			"pl": "Gree Airconditioner",
+			"zh-cn": "格力空调"
+		},
+		"desc": {
+			"en": "gree air description",
+			"de": "Freie Luft Beschreibung",
+			"ru": "описание воздуха",
+			"pt": "descrição do ar gree",
+			"nl": "gree luchtbeschrijving",
+			"fr": "gree air description",
+			"it": "descrizione gree air",
+			"es": "descripción de gree air",
+			"pl": "opis powietrza",
+			"zh-cn": "格力空气描述"
+		},
+		"authors": [
+			"jan weltmeyer <jan@weltmeyer.net>"
+		],
+		"keywords": [
+			"gree aircon"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "gree_aircon.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/weltmeyer/ioBroker.gree_aircon/master/admin/gree_aircon.png",
+		"readme": "https://github.com/weltmeyer/ioBroker.gree_aircon/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "climate-control",
+		"compact": true,
+		"materialize": true,
+		"dependencies": [
+			{
+				"js-controller": ">=1.4.2"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}

@@ -93,7 +93,7 @@ class GreeAircon extends utils.Adapter {
 			this.log.info('Client connected:'+client.getDeviceId());
 			this.setState('info.connection', true, true);
 		});
-		this.Greeclient.on('update',this.onGreeUpdate);
+		this.Greeclient.on('update',this.onGreeUpdate.bind(this));
 	}
 
 

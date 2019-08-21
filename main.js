@@ -190,7 +190,10 @@ class GreeAircon extends utils.Adapter {
 						break;
 					}
 					case 'temperature': {
-						this.Greeclient.setProperty(Gree.PROPERTY.temperature, state.val);
+						const properties = {};
+						properties[Gree.PROPERTY.temperature]=state.val;
+						properties[Gree.PROPERTY.temperatureUnit]=Gree.VALUE.temperatureUnit.celsius;
+						this.Greeclient.setProperties(properties);
 						this.setStateAsync('temperature', state.val, true);//ack 
 						break;
 					}

@@ -149,6 +149,7 @@ class GreeAircon extends utils.Adapter {
 
 		this.setStateAsync('lights', properties.lights == 'on' ? true : false, true);
 		this.setStateAsync('temperature', properties.temperature, true);
+		this.setStateAsync('power', properties.power=='on', true);
 	}
 
 

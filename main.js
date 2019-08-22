@@ -8,6 +8,7 @@
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
 const Gree = require('gree-hvac-client');
+
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
@@ -27,7 +28,7 @@ class GreeAircon extends utils.Adapter {
 		this.on('stateChange', this.onStateChange.bind(this));
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
-
+		this.currentProperties = {};
 		this.Greeclient = null;
 	}
 
@@ -42,8 +43,7 @@ class GreeAircon extends utils.Adapter {
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		this.log.info('config option1: ' + this.config.option1);
-		this.log.info('config option2: ' + this.config.option2);
+		this.log.info('config ipAddress: ' + this.config.ipAddress);
 
 		/*
 		For every state in the system there has to be also an object of type state
@@ -99,6 +99,18 @@ class GreeAircon extends utils.Adapter {
 			native: {},
 		});
 
+		await this.setObjectAsync('mode', {
+			type: 'state',
+			common: {
+				name: 'mode(auto, cool, heat, dry, fan_only)',
+				type: 'text',
+				role: '',
+				read: true,
+				write: true,
+			},
+			native: {},
+		});
+
 		// in this template all states changes inside the adapters namespace are subscribed
 		this.subscribeStates('*');
 
@@ -123,7 +135,7 @@ class GreeAircon extends utils.Adapter {
 		result = await this.checkGroupAsync('admin', 'admin');
 		this.log.info('check group user admin group admin: ' + result);
 
-		this.Greeclient = new Gree.Client({ host: '10.0.20.104' });
+		this.Greeclient = new Gree.Client({ host: this.config.ipAddress });
 
 		this.Greeclient.on('connect', (client) => {
 
@@ -146,10 +158,15 @@ class GreeAircon extends utils.Adapter {
 		const propJson = JSON.stringify(properties);
 		this.log.info('ClientPollUpdate: updatesProperties:' + updateJson);
 		this.log.info('ClientPollUpdate: nowProperties:' + propJson);
-
-		this.setStateAsync('lights', properties.lights == 'on' ? true : false, true);
-		this.setStateAsync('temperature', properties.temperature, true);
-		this.setStateAsync('power', properties.power=='on', true);
+		this.currentProperties = properties;
+		if ('lights' in updatedProperties)
+			this.setStateAsync('lights', updatedProperties.lights == 'on' ? true : false, true);
+		if ('temperature' in updatedProperties)
+			this.setStateAsync('temperature', updatedProperties.temperature, true);
+		if ('power' in updatedProperties)
+			this.setStateAsync('power', updatedProperties.power == 'on', true);
+		if ('mode' in updatedProperties)
+			this.setStateAsync('mode', updatedProperties.mode, true);
 	}
 
 
@@ -210,10 +227,20 @@ class GreeAircon extends utils.Adapter {
 					}
 					case 'temperature': {
 						const properties = {};
-						properties[Gree.PROPERTY.temperature]=state.val;
-						properties[Gree.PROPERTY.temperatureUnit]=Gree.VALUE.temperatureUnit.celsius;
+						properties[Gree.PROPERTY.temperature] = state.val;
+						properties[Gree.PROPERTY.temperatureUnit] = Gree.VALUE.temperatureUnit.celsius;
 						this.Greeclient.setProperties(properties);
 						this.setStateAsync('temperature', state.val, true);//ack 
+						break;
+					}
+					case 'mode': {
+						if (!['auto', 'cool', 'heat', 'dry', 'fan_only'].includes(state.val)) {
+							this.log.error(`tried to set bad value for mode:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('mode', this.currentProperties.mode, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.mode, state.val);
+						this.setStateAsync('mode', state.val, true);//ack...
 						break;
 					}
 

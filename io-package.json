@@ -66,8 +66,7 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"ipAddress":"10.0.20.104"
 	},
 	"objects": [],
 	"instanceObjects": [

@@ -37,5 +37,17 @@ systemDictionary = {
 		'es': 'opcion 2',
 		'pl': 'Opcja 2',
 		'zh-cn': '选项2'
+	},
+	'ipAddress': {
+		'en': 'ipAddress',
+		'de': 'ipAddress',
+		'ru': 'ipAddress',
+		'pt': 'ipAddress',
+		'nl': 'ipAddress',
+		'fr': 'ipAddress',
+		'it': 'ipAddress',
+		'es': 'ipAddress',
+		'pl': 'ipAddress',
+		'zh-cn': 'ipAddress'
 	}
 };

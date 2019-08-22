@@ -143,6 +143,19 @@
 				"def": "auto"
 			},
 			"native": {}
+		},
+		{
+			"_id": "fanSpeed",
+			"type": "state",
+			"common": {
+				"role": "",
+				"name": "Fan Speed one of(auto, low, mediumLow, medium, mediumHigh, high)",
+				"type": "text",
+				"read": true,
+				"write": true,
+				"def": "auto"
+			},
+			"native": {}
 		}
 		
 	]

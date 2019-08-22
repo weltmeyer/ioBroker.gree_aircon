@@ -82,6 +82,8 @@ class GreeAircon extends utils.Adapter {
 			this.setStateAsync('power', updatedProperties.power == 'on', true);
 		if ('mode' in updatedProperties)
 			this.setStateAsync('mode', updatedProperties.mode, true);
+		if('fanSpeed' in updatedProperties)
+			this.setStateAsync('fanSpeed', updatedProperties.fanSpeed, true);
 	}
 
 
@@ -157,6 +159,16 @@ class GreeAircon extends utils.Adapter {
 						}
 						this.Greeclient.setProperty(Gree.PROPERTY.mode, state.val);
 						this.setStateAsync('mode', state.val, true);//ack...
+						break;
+					}
+					case 'fanSpeed': {
+						if (!['auto', 'low', 'mediumLow', 'medium', 'mediumHigh', 'high'].includes(state.val)) {
+							this.log.error(`tried to set bad value for fanSpeed:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('fanSpeed', this.currentProperties.fanSpeed, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.fanSpeed, state.val);
+						this.setStateAsync('fanSpeed', state.val, true);//ack...
 						break;
 					}
 

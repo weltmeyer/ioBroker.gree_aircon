@@ -90,6 +90,60 @@
 				"def": false
 			},
 			"native": {}
+		},
+
+		{
+			"_id": "power",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "AC powered on",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "lights",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "Lights on",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "temperature",
+			"type": "state",
+			"common": {
+				"role": "value.temperature",
+				"name": "Temperature",
+				"type": "number",
+				"read": true,
+				"write": true,
+				"def": -10
+			},
+			"native": {}
+		},
+		{
+			"_id": "mode",
+			"type": "state",
+			"common": {
+				"role": "",
+				"name": "Operationmode one of(auto, cool, heat, dry, fan_only)",
+				"type": "text",
+				"read": true,
+				"write": true,
+				"def": "auto"
+			},
+			"native": {}
 		}
+		
 	]
 }

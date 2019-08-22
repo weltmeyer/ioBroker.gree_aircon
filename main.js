@@ -24,7 +24,7 @@ class GreeAircon extends utils.Adapter {
 			name: 'gree_aircon',
 		});
 		this.on('ready', this.onReady.bind(this));
-		this.on('objectChange', this.onObjectChange.bind(this));
+		//this.on('objectChange', this.onObjectChange.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
 		// this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
@@ -62,54 +62,6 @@ class GreeAircon extends utils.Adapter {
 			native: {},
 		});
 
-
-		await this.setObjectAsync('lights', {
-			type: 'state',
-			common: {
-				name: 'lights',
-				type: 'boolean',
-				role: 'switch',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-
-		await this.setObjectAsync('power', {
-			type: 'state',
-			common: {
-				name: 'power',
-				type: 'boolean',
-				role: 'switch',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-
-		await this.setObjectAsync('temperature', {
-			type: 'state',
-			common: {
-				name: 'temperature',
-				type: 'number',
-				role: 'value.temperature',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-
-		await this.setObjectAsync('mode', {
-			type: 'state',
-			common: {
-				name: 'mode(auto, cool, heat, dry, fan_only)',
-				type: 'text',
-				role: '',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
 
 		// in this template all states changes inside the adapters namespace are subscribed
 		this.subscribeStates('*');
@@ -177,7 +129,7 @@ class GreeAircon extends utils.Adapter {
 	onUnload(callback) {
 		try {
 			this.Greeclient.disconnect();
-			this.log.info('cleaned everything up...');
+			//this.log.info('cleaned everything up...');
 			callback();
 		} catch (e) {
 			callback();
@@ -190,6 +142,7 @@ class GreeAircon extends utils.Adapter {
 	 * @param {ioBroker.Object | null | undefined} obj
 	 */
 	onObjectChange(id, obj) {
+		
 		if (obj) {
 			// The object was changed
 			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
@@ -247,10 +200,10 @@ class GreeAircon extends utils.Adapter {
 				}
 
 			}
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}) (state=${JSON.stringify(state)})`);
+			//this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}) (state=${JSON.stringify(state)})`);
 		} else {
 			// The state was deleted
-			this.log.info(`state ${id} deleted`);
+			//this.log.info(`state ${id} deleted`);
 		}
 	}
 

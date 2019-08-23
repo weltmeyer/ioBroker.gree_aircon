@@ -190,7 +190,7 @@ class GreeAircon extends utils.Adapter {
 					case 'air': {
 						if (!['off', 'inside', 'outside', 'mode3'].includes(state.val)) {
 							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
-							this.setStateAsync('air', this.currentProperties.fanSpeed, true);//ack...
+							this.setStateAsync('air', this.currentProperties.air, true);//ack...
 							break;
 						}
 						this.Greeclient.setProperty(Gree.PROPERTY.air, state.val);

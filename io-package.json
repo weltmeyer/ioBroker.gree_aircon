@@ -210,7 +210,7 @@
 			"native": {}
 		},
 		{
-			"_id": "quit",
+			"_id": "quiet",
 			"type": "state",
 			"common": {
 				"role": "switch",

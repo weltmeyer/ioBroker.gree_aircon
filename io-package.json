@@ -213,12 +213,12 @@
 			"_id": "quiet",
 			"type": "state",
 			"common": {
-				"role": "switch",
-				"name": "Quiet",
-				"type": "boolean",
+				"role": "",
+				"name": "QuietMode (off, mode1, mode2, mode3)",
+				"type": "text",
 				"read": true,
 				"write": true,
-				"def": false
+				"def": "noset"
 			},
 			"native": {}
 		},

@@ -82,8 +82,24 @@ class GreeAircon extends utils.Adapter {
 			this.setStateAsync('power', updatedProperties.power == 'on', true);
 		if ('mode' in updatedProperties)
 			this.setStateAsync('mode', updatedProperties.mode, true);
-		if('fanSpeed' in updatedProperties)
+		if ('fanSpeed' in updatedProperties)
 			this.setStateAsync('fanSpeed', updatedProperties.fanSpeed, true);
+		if ('air' in updatedProperties)
+			this.setStateAsync('air', updatedProperties.air, true);
+		if ('blow' in updatedProperties)
+			this.setStateAsync('blow', updatedProperties.blow == 'on', true);
+		if ('health' in updatedProperties)
+			this.setStateAsync('health', updatedProperties.health == 'on', true);
+		if ('sleep' in updatedProperties)
+			this.setStateAsync('sleep', updatedProperties.sleep == 'on', true);
+		if ('quiet' in updatedProperties)
+			this.setStateAsync('quiet', updatedProperties.quiet, true);
+		if ('turbo' in updatedProperties)
+			this.setStateAsync('turbo', updatedProperties.turbo == 'on', true);
+		if ('powerSave' in updatedProperties)
+			this.setStateAsync('powerSave', updatedProperties.powerSave == 'on', true);
+
+
 	}
 
 
@@ -107,7 +123,7 @@ class GreeAircon extends utils.Adapter {
 	 * @param {ioBroker.Object | null | undefined} obj
 	 */
 	onObjectChange(id, obj) {
-		
+
 		if (obj) {
 			// The object was changed
 			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
@@ -153,7 +169,7 @@ class GreeAircon extends utils.Adapter {
 					}
 					case 'mode': {
 						if (!['auto', 'cool', 'heat', 'dry', 'fan_only'].includes(state.val)) {
-							this.log.error(`tried to set bad value for mode:"${state.val}". Source:${state.from}`);
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
 							this.setStateAsync('mode', this.currentProperties.mode, true);//ack...
 							break;
 						}
@@ -163,7 +179,7 @@ class GreeAircon extends utils.Adapter {
 					}
 					case 'fanSpeed': {
 						if (!['auto', 'low', 'mediumLow', 'medium', 'mediumHigh', 'high'].includes(state.val)) {
-							this.log.error(`tried to set bad value for fanSpeed:"${state.val}". Source:${state.from}`);
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
 							this.setStateAsync('fanSpeed', this.currentProperties.fanSpeed, true);//ack...
 							break;
 						}
@@ -171,7 +187,56 @@ class GreeAircon extends utils.Adapter {
 						this.setStateAsync('fanSpeed', state.val, true);//ack...
 						break;
 					}
-
+					case 'air': {
+						if (!['off', 'inside', 'outside', 'mode3'].includes(state.val)) {
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('air', this.currentProperties.fanSpeed, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.air, state.val);
+						this.setStateAsync('air', state.val, true);//ack...
+						break;
+					}
+					case 'blow': {
+						const newVal = state.val ? Gree.VALUE.blow.on : Gree.VALUE.blow.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.blow, newVal);
+						this.setStateAsync('blow', state.val, true);//ack...
+						break;
+					}
+					case 'health': {
+						const newVal = state.val ? Gree.VALUE.health.on : Gree.VALUE.health.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.health, newVal);
+						this.setStateAsync('health', state.val, true);//ack...
+						break;
+					}
+					case 'sleep': {
+						const newVal = state.val ? Gree.VALUE.sleep.on : Gree.VALUE.sleep.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.sleep, newVal);
+						this.setStateAsync('sleep', state.val, true);//ack...
+						break;
+					}
+					case 'quiet': {
+						if (!['off', 'mode1', 'mode2', 'mode3'].includes(state.val)) {
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('air', this.currentProperties.quiet, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.quiet, state.val);
+						this.setStateAsync('quiet', state.val, true);//ack...
+						break;
+					}
+					case 'turbo': {
+						const newVal = state.val ? Gree.VALUE.turbo.on : Gree.VALUE.turbo.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.turbo, newVal);
+						this.setStateAsync('turbo', state.val, true);//ack...
+						break;
+					}
+					case 'powerSave': {
+						const newVal = state.val ? Gree.VALUE.powerSave.on : Gree.VALUE.powerSave.off;
+						this.Greeclient.setProperty(Gree.PROPERTY.powerSave, newVal);
+						this.setStateAsync('powerSave', state.val, true);//ack...
+						break;
+					}
 				}
 
 			}

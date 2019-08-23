@@ -156,6 +156,97 @@
 				"def": "auto"
 			},
 			"native": {}
+		},
+		{
+			"_id": "air",
+			"type": "state",
+			"common": {
+				"role": "",
+				"name": "Air selection, one of(off, inside, outside, mode3)",
+				"type": "text",
+				"read": true,
+				"write": true,
+				"def": "off"
+			},
+			"native": {}
+		},
+		{
+			"_id": "blow",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "Blow",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "health",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "Health",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "sleep",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "Sleep",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "quit",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "Quiet",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "turbo",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "Turbo",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "powerSave",
+			"type": "state",
+			"common": {
+				"role": "switch",
+				"name": "PowerSave",
+				"type": "boolean",
+				"read": true,
+				"write": true,
+				"def": false
+			},
+			"native": {}
 		}
 		
 	]

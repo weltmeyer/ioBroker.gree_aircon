@@ -145,6 +145,9 @@ class GreeAircon extends utils.Adapter {
 				//ack is true when state was updated by device status... in this case, we dont need to send it again :)
 				const arrayOfStrings = id.split('.');
 				const propName = arrayOfStrings[arrayOfStrings.length - 1];
+				
+				// test state change logging
+				this.log.error(`tried to set value for ${propName}:"${state.val}". Source:${state.from}`);
 
 				switch (propName) {
 					case 'lights': {

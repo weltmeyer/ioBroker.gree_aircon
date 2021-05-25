@@ -98,7 +98,10 @@ class GreeAircon extends utils.Adapter {
 			this.setStateAsync('turbo', updatedProperties.turbo == 'on', true);
 		if ('powerSave' in updatedProperties)
 			this.setStateAsync('powerSave', updatedProperties.powerSave == 'on', true);
-
+		if ('swingVert' in updatedProperties)
+			this.setStateAsync('swingVert', updatedProperties.swingVert, true);
+		if ('swingHor' in updatedProperties)
+			this.setStateAsync('swingHor', updatedProperties.swingHor, true);
 
 	}
 
@@ -218,7 +221,7 @@ class GreeAircon extends utils.Adapter {
 					case 'quiet': {
 						if (!['off', 'mode1', 'mode2', 'mode3'].includes(state.val)) {
 							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
-							this.setStateAsync('air', this.currentProperties.quiet, true);//ack...
+							this.setStateAsync('quiet', this.currentProperties.quiet, true);//ack...
 							break;
 						}
 						this.Greeclient.setProperty(Gree.PROPERTY.quiet, state.val);
@@ -237,6 +240,26 @@ class GreeAircon extends utils.Adapter {
 						this.setStateAsync('powerSave', state.val, true);//ack...
 						break;
 					}
+					case 'swingVert': {
+						if (!['default', 'full', 'fixedTop', 'fixedMidTop', 'fixedMid', 'fixedMidBottom', 'fixedBottom', 'full'].includes(state.val)) {
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('swingVert', this.currentProperties.swingVert, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.swingVert, state.val);
+						this.setStateAsync('swingVert', state.val, true);//ack...
+						break;						
+					}
+					case 'swingHor': {
+						if (!['default', 'full', 'fixedLeft', 'fixedMidLeft', 'fixedMid', 'fixedMidRight', 'fixedRight', 'fullAlt'].includes(state.val)) {
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('swingHor', this.currentProperties.swingHor, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.swingHor, state.val);
+						this.setStateAsync('swingHor', state.val, true);//ack...
+						break;
+					}						
 				}
 
 			}

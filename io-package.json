@@ -247,6 +247,32 @@
 				"def": false
 			},
 			"native": {}
+		},
+		{
+			"_id": "swingHor",
+			"type": "state",
+			"common": {
+				"role": "",
+				"name": "swingHor one of (default, full, fixedLeft, fixedMidLeft, fixedMid, fixedMidRight, fixedRight, fullAlt)",
+				"type": "string",
+				"read": true,
+				"write": true,
+				"def": "default"
+			},
+			"native": {}
+		},
+				{
+			"_id": "swingVert",
+			"type": "state",
+			"common": {
+				"role": "",
+				"name": "swingVert one of (default, full, fixedTop, fixedMidTop, fixedMid, fixedMidBottom, fixedBottom)",
+				"type": "string",
+				"read": true,
+				"write": true,
+				"def": "default"
+			},
+			"native": {}
 		}
 		
 	]

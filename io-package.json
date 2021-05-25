@@ -137,7 +137,7 @@
 			"common": {
 				"role": "",
 				"name": "Operationmode one of(auto, cool, heat, dry, fan_only)",
-				"type": "text",
+				"type": "string",
 				"read": true,
 				"write": true,
 				"def": "auto"
@@ -150,7 +150,7 @@
 			"common": {
 				"role": "",
 				"name": "Fan Speed one of(auto, low, mediumLow, medium, mediumHigh, high)",
-				"type": "text",
+				"type": "string",
 				"read": true,
 				"write": true,
 				"def": "auto"
@@ -163,7 +163,7 @@
 			"common": {
 				"role": "",
 				"name": "Air selection, one of(off, inside, outside, mode3)",
-				"type": "text",
+				"type": "string",
 				"read": true,
 				"write": true,
 				"def": "off"
@@ -215,7 +215,7 @@
 			"common": {
 				"role": "",
 				"name": "QuietMode (off, mode1, mode2, mode3)",
-				"type": "text",
+				"type": "string",
 				"read": true,
 				"write": true,
 				"def": "noset"

@@ -132,6 +132,19 @@
 			"native": {}
 		},
 		{
+			"_id": "currentTemperature",
+			"type": "state",
+			"common": {
+				"role": "value.currentTemperature",
+				"name": "Temperature",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"def": -10
+			},
+			"native": {}
+		},		
+		{
 			"_id": "mode",
 			"type": "state",
 			"common": {

@@ -78,6 +78,8 @@ class GreeAircon extends utils.Adapter {
 			this.setStateAsync('lights', updatedProperties.lights == 'on' ? true : false, true);
 		if ('temperature' in updatedProperties)
 			this.setStateAsync('temperature', updatedProperties.temperature, true);
+		if ('currentTemperature' in updatedProperties)
+			this.setStateAsync('currentTemperature', updatedProperties.currentTemperature, true);
 		if ('power' in updatedProperties)
 			this.setStateAsync('power', updatedProperties.power == 'on', true);
 		if ('mode' in updatedProperties)
@@ -168,6 +170,14 @@ class GreeAircon extends utils.Adapter {
 						properties[Gree.PROPERTY.temperatureUnit] = Gree.VALUE.temperatureUnit.celsius;
 						this.Greeclient.setProperties(properties);
 						this.setStateAsync('temperature', state.val, true);//ack 
+						break;
+					}
+					case 'currentTemperature': {
+						const properties = {};
+						properties[Gree.PROPERTY.currentTemperature] = state.val;
+						properties[Gree.PROPERTY.temperatureUnit] = Gree.VALUE.temperatureUnit.celsius;
+						// this.Greeclient.setProperties(properties);
+						// this.setStateAsync('currentTemperature', state.val, true);//ack 
 						break;
 					}
 					case 'mode': {

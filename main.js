@@ -78,6 +78,8 @@ class GreeAircon extends utils.Adapter {
 			this.setStateAsync('lights', updatedProperties.lights == 'on' ? true : false, true);
 		if ('temperature' in updatedProperties)
 			this.setStateAsync('temperature', updatedProperties.temperature, true);
+		if ('currentTemperature' in updatedProperties)
+			this.setStateAsync('currentTemperature', updatedProperties.currentTemperature, true);
 		if ('power' in updatedProperties)
 			this.setStateAsync('power', updatedProperties.power == 'on', true);
 		if ('mode' in updatedProperties)
@@ -98,7 +100,10 @@ class GreeAircon extends utils.Adapter {
 			this.setStateAsync('turbo', updatedProperties.turbo == 'on', true);
 		if ('powerSave' in updatedProperties)
 			this.setStateAsync('powerSave', updatedProperties.powerSave == 'on', true);
-
+		if ('swingVert' in updatedProperties)
+			this.setStateAsync('swingVert', updatedProperties.swingVert, true);
+		if ('swingHor' in updatedProperties)
+			this.setStateAsync('swingHor', updatedProperties.swingHor, true);
 
 	}
 
@@ -167,6 +172,14 @@ class GreeAircon extends utils.Adapter {
 						this.setStateAsync('temperature', state.val, true);//ack 
 						break;
 					}
+					case 'currentTemperature': {
+						const properties = {};
+						properties[Gree.PROPERTY.currentTemperature] = state.val;
+						properties[Gree.PROPERTY.temperatureUnit] = Gree.VALUE.temperatureUnit.celsius;
+						this.Greeclient.setProperties(properties);
+						this.setStateAsync('currentTemperature', state.val, true);//ack 
+						break;
+					}
 					case 'mode': {
 						if (!['auto', 'cool', 'heat', 'dry', 'fan_only'].includes(state.val)) {
 							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
@@ -218,7 +231,7 @@ class GreeAircon extends utils.Adapter {
 					case 'quiet': {
 						if (!['off', 'mode1', 'mode2', 'mode3'].includes(state.val)) {
 							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
-							this.setStateAsync('air', this.currentProperties.quiet, true);//ack...
+							this.setStateAsync('quiet', this.currentProperties.quiet, true);//ack...
 							break;
 						}
 						this.Greeclient.setProperty(Gree.PROPERTY.quiet, state.val);
@@ -237,6 +250,26 @@ class GreeAircon extends utils.Adapter {
 						this.setStateAsync('powerSave', state.val, true);//ack...
 						break;
 					}
+					case 'swingVert': {
+						if (!['default', 'full', 'fixedTop', 'fixedMidTop', 'fixedMid', 'fixedMidBottom', 'fixedBottom', 'full'].includes(state.val)) {
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('swingVert', this.currentProperties.swingVert, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.swingVert, state.val);
+						this.setStateAsync('swingVert', state.val, true);//ack...
+						break;						
+					}
+					case 'swingHor': {
+						if (!['default', 'full', 'fixedLeft', 'fixedMidLeft', 'fixedMid', 'fixedMidRight', 'fixedRight', 'fullAlt'].includes(state.val)) {
+							this.log.error(`tried to set bad value for ${propName}:"${state.val}". Source:${state.from}`);
+							this.setStateAsync('swingHor', this.currentProperties.swingHor, true);//ack...
+							break;
+						}
+						this.Greeclient.setProperty(Gree.PROPERTY.swingHor, state.val);
+						this.setStateAsync('swingHor', state.val, true);//ack...
+						break;
+					}						
 				}
 
 			}
